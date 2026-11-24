@@ -1385,6 +1385,109 @@ strong, b{ font-weight:500; }
   .org__base path{ stroke-dashoffset:0 !important; opacity:1 !important; }
   .org__card, .org__panel, .pj__toggle{ display:none !important; }
 }
+
+/* ============================================================
+   PHONES: a cleaner small-screen pass
+   ============================================================ */
+@media (max-width: 720px){
+  /* Cover */
+  .hero__eyebrow{ white-space:normal !important; font-size:12.5px !important; letter-spacing:.14em; line-height:1.5; }
+  .hero__eb{ display:block; }
+  .hero__sep{ display:none; }
+  .hero__body{ padding-top:96px; padding-bottom:40px; }
+  .hero__title{ margin-top:12px; }
+  .hero__sub{ font-size:17px; margin-top:18px; }
+  .hero__note{ font-size:13.5px; margin-top:10px; }
+  .band__label{ font-size:11.5px; letter-spacing:.1em; line-height:1.35; }
+  .band__value{ font-size:40px; }
+
+  /* Type scale */
+  .head{ margin-bottom:28px; }
+  .head h2{ font-size:36px; }
+  .head p{ font-size:17px; line-height:1.6; margin-top:18px; }
+  .intro{ font-size:17.5px; line-height:1.6; }
+  .footer__cta p{ font-size:17.5px; }
+  .footer__cta h2{ font-size:44px; }
+  .footer .wrap{ padding-top:64px; }
+  .footer__cta{ margin-top:56px; }
+
+  /* About: awards as an even two-by-two */
+  .stats{ margin-top:36px; }
+  .pillars{ margin-top:40px; }
+  .awards{ display:grid; grid-template-columns:1fr 1fr; gap:22px 16px; justify-items:center; align-items:center; margin-top:44px; padding:22px 18px; }
+  .awards img{ height:42px; max-width:100%; object-fit:contain; }
+  .awards img.tall{ height:58px; }
+
+  /* Experience: one-column project list with the market under each name */
+  .pj{ margin-top:48px; }
+  .pj__t thead th:nth-child(2), .pj__t td.pj__loc{ display:none; }
+  .pj__name small{ display:block; margin-top:4px; }
+  .pj__t td{ padding-top:11px; padding-bottom:11px; }
+  .pj__stats{ margin-top:4px; }
+  /* Project photos: a swipeable strip instead of cramped thumbnails */
+  .pj__photos{ display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; margin:20px -20px 0; padding:0 20px 2px; scroll-padding:0 20px; }
+  .pj__photos::-webkit-scrollbar{ display:none; }
+  .pj__photos figure{ flex:0 0 80%; scroll-snap-align:start; }
+  .pj__photos img{ aspect-ratio:4 / 3; }
+  .pj__photos figcaption{ font-size:13.5px; padding:28px 12px 10px; }
+
+  /* Affiliates: phase labels over the bars, and copy at full width */
+  .af__phases{ display:block; padding:2px 10px 8px; }
+  .af__phases > span{ display:none; }
+  .af__phases div span{ font-size:11px; letter-spacing:.08em; }
+  .af__phases div span + span{ padding-left:6px; }
+  .af__about > p, .af__why p{ max-width:none; }
+  .af__lists li, .af__fs{ white-space:normal; }
+  .af__head{ flex-direction:column; align-items:flex-start; gap:12px; padding-bottom:18px; }
+  .af__id{ min-width:0; width:100%; }
+  .af__id h3{ font-size:28px; }
+  .af__panel{ scroll-margin-top:12px; }
+
+  /* Procore */
+  .pc__h{ margin-top:48px; }
+  .pc__flow > li{ padding-right:0; }
+  .pc__beyond{ margin-top:40px; }
+  .pc__beyond-head p{ font-size:26px; }
+
+  /* Team structure: real tree lines, a little more indent, tidy legend */
+  .org__lines{ display:block; }
+  .org__node{ margin-left:calc(var(--lv) * 22px); }
+  .org__key{ display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px 12px; font-size:12.5px; }
+  .org__key span{ gap:7px; white-space:nowrap; }
+  .org__key i{ width:14px; }
+  .org__key .org__ln i{ width:16px; }
+  .org__panel:not(.is-role){ box-shadow:0 14px 26px -22px rgba(9,113,206,.8); }
+  .org__value{ margin-top:44px; }
+  .pillars{ gap:24px; }
+
+  /* Back cover: contact details get the full card width */
+  .contacts{ margin-top:32px; gap:16px; }
+  .contact{ grid-template-columns:56px minmax(0,1fr); column-gap:16px; row-gap:0; align-items:center; padding:22px 20px; }
+  .contact > div:not(.contact__avatar){ display:contents; }
+  .contact__avatar{ grid-row:1 / span 2; width:56px; height:56px; }
+  .contact h3{ grid-column:2; margin:0; align-self:end; font-size:26px; }
+  .contact__role{ grid-column:2; align-self:start; margin-top:6px; }
+  .contact__lines{ grid-column:1 / -1; margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,.12); gap:4px; }
+  .contact a{ overflow-wrap:normal; font-size:16px; }
+  .reach{ margin-top:64px; padding-top:48px; }
+  .reach__head p{ font-size:16px; }
+  /* Map key and offices two-up */
+  .tgc-key{ column-gap:8px; }
+  .tgc-key__text{ font-size:13.5px; }
+  .tgc-key__item{ gap:10px; padding:8px 6px; }
+  .offices{ grid-template-columns:repeat(2, minmax(0,1fr)) !important; gap:10px; margin-top:28px; }
+  .office__addr{ white-space:normal; }
+  .tgc-key{ grid-template-columns:repeat(2, minmax(0,1fr)) !important; }
+  .office{ padding:16px 14px; font-size:14px; line-height:1.45; }
+  .office__name{ font-size:14px; letter-spacing:.1em; }
+  .office__go{ margin-top:10px; }
+  .footer__base{ margin-top:64px; }
+  .footer__tag{ font-size:15px; letter-spacing:.16em; }
+}
+@media (max-width: 360px){
+  .offices{ grid-template-columns:1fr !important; }
+  .org__node{ margin-left:calc(var(--lv) * 18px); }
+}
 </style>
 </head>
 
@@ -1585,7 +1688,7 @@ const COMPANY = {
       { key: "pres",  title: "President of Construction", group: "lead",    col: 1,  row: 1, parents: [],
         body: "Sets the direction for every Garrett jobsite: construction strategy, staffing and the standards each team is held to. Stays involved in every owner relationship." },
       { key: "vp",    title: "VP of Construction",       group: "lead",    col: 1,  row: 2, parents: ["pres"],
-        body: "Runs day-to-day construction across the portfolio. Moves people and resources between projects and is the escalation point when necessary." },
+        body: "Runs day-to-day construction across the portfolio. Moves people and resources between projects and is the escalation point when a job needs more." },
       { key: "super", title: "Superintendent",           group: "field",   col: 1,  row: 3, parents: ["vp"],
         body: "Runs the jobsite every day: trades, safety, quality and the look-ahead schedule. Knows exactly where your building stands at any moment." },
       { key: "asup",  title: "Assistant Superintendent", group: "field",   col: 1,  row: 4, parents: ["super"],
@@ -1621,7 +1724,7 @@ const COMPANY = {
     title: "Start a conversation",
     role:  "Partner with Garrett",
     body:  "Tell us about your next community. We’ll bring the right people, numbers and schedule thinking to our first meeting.",
-    link:  "Email Matt Anderson"            // opens an email to PROFILE.primaryContact
+    link:  "Get In Touch"                   // opens an email to PROFILE.primaryContact
   },
 
   // ------------------------------------------------------------
@@ -1886,7 +1989,7 @@ function hero(){
       <div class="hero__role" data-h ${rd(120)}>${esc(C.role)}</div>
     </div>
     <div class="wrap hero__body">
-      <div class="kicker hero__eyebrow" data-h ${rd(80)}>${esc(P.eyebrow)}</div>
+      <div class="kicker hero__eyebrow" data-h ${rd(80)}>${P.eyebrow.split(" · ").map(esc).map(t => `<span class="hero__eb">${t}</span>`).join(`<span class="hero__sep"> · </span>`)}</div>
       <h1 class="hero__title" aria-label="${esc(P.title)}">${words}</h1>
       <hr class="tick">
       <p class="hero__sub" data-h ${rd(760)}>${esc(P.sub)}<br><span class="hero__note">${esc(P.subNote)}</span></p>
@@ -2115,7 +2218,7 @@ function pjBody(list, animate){
   return pjGroups(list).map(([st, l]) => `
     <tbody${animate ? ` class="is-new"` : ""}>
       ${row(`<tr class="pj__grp"><th colspan="2" scope="rowgroup"><span>${esc(C.states[st] || st)}</span><b>${l.length} ${l.length === 1 ? "project" : "projects"}</b></th></tr>`)}
-      ${l.map(p => row(`<tr><td class="pj__name">${esc(p.name)}</td><td class="pj__loc">${esc(p.city)}, ${esc(p.state)}</td></tr>`)).join("")}
+      ${l.map(p => row(`<tr><td class="pj__name">${esc(p.name)}<small>${esc(p.city)}, ${esc(p.state)}</small></td><td class="pj__loc">${esc(p.city)}, ${esc(p.state)}</td></tr>`)).join("")}
     </tbody>`).join("");
 }
 const PJ_VIEWS = {
@@ -2497,7 +2600,13 @@ function selectAffiliate(key){
 function wireAffiliates(){
   const rows = $$(".af__row");
   rows.forEach((b, i) => {
-    b.addEventListener("click", () => selectAffiliate(b.dataset.aff));
+    b.addEventListener("click", () => {
+      selectAffiliate(b.dataset.aff);
+      if (matchMedia("(max-width: 720px)").matches) {
+        const panel = document.getElementById(`af-${b.dataset.aff}`);
+        requestAnimationFrame(() => panel.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }));
+      }
+    });
     b.addEventListener("keydown", e => {
       const d = e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : e.key === "ArrowUp" || e.key === "ArrowLeft" ? -1 : 0;
       if (!d) return; e.preventDefault();
@@ -2681,7 +2790,28 @@ function wireOrg(){
   };
   const vertical = () => getComputedStyle(grid).display !== "grid";
   function draw(){
-    if (vertical()) { panel.style.left = panel.style.width = panel.style.minHeight = ""; return; }
+    svg.style.top = grid.offsetTop + "px"; svg.style.left = grid.offsetLeft + "px";
+    svg.setAttribute("viewBox", `0 0 ${grid.offsetWidth} ${grid.offsetHeight}`);
+    svg.setAttribute("width", grid.offsetWidth); svg.setAttribute("height", grid.offsetHeight);
+    if (vertical()) {
+      // Phones: a file-tree connector from each role down the left edge into its report.
+      // A role with two leads (the Project Manager) hangs from the nearest one above it.
+      panel.style.left = panel.style.width = panel.style.minHeight = "";
+      const parentOf = {};
+      O.roles.forEach(r => {
+        const ps = (r.parents || []).map(p => [p, box(p).t]).filter(([, t]) => t < box(r.key).t).sort((a, z) => z[1] - a[1]);
+        if (ps.length) parentOf[r.key] = ps[0][0];
+      });
+      edges.forEach(e => {
+        let d = "";
+        if (parentOf[e.c] === e.p) {
+          const P = box(e.p), Cb = box(e.c), x = P.l + 11;
+          d = orgPath([[x, P.b], [x, Cb.cy], [Cb.l, Cb.cy]], 7);
+        }
+        e.base.setAttribute("d", d); e.hot.setAttribute("d", d);
+      });
+      return;
+    }
     // Corner panel: from the column set in the data to the right edge, ending above the row-3 connectors
     const rows = O.roles.map(r => [r.row, box(r.key)]);
     const r2b = Math.max(...rows.filter(([n]) => n === 2).map(([, b]) => b.b));
@@ -2965,20 +3095,21 @@ function initMotion(){
 })();
 </script>
 <script>
-/* Phones: ease the cover eyebrow's size down until it fits on one line */
+/* Phones: make sure each word of the cover title fits the screen, whichever font
+   actually loads (the condensed face fits easily; a wide fallback would not) */
 (function(){
-  const mq = matchMedia("(max-width: 640px)");
+  const mq = matchMedia("(max-width: 720px)");
   function fit(){
-    const el = document.querySelector(".hero__eyebrow");
-    if (!el) return;
-    el.style.fontSize = "";
+    const t = document.querySelector(".hero__title"); if (!t) return;
+    t.style.fontSize = "";
     if (!mq.matches) return;
-    let size = parseFloat(getComputedStyle(el).fontSize);
-    while (el.scrollWidth > el.clientWidth && size > 8) {
-      size -= 0.25;
-      el.style.fontSize = size + "px";
-    }
+    const words = Array.from(t.querySelectorAll(".w > span"));
+    if (!words.length) return;
+    const widest = () => Math.max.apply(null, words.map(w => w.offsetWidth));
+    let size = parseFloat(getComputedStyle(t).fontSize);
+    while (widest() > t.clientWidth && size > 28) { size -= 1; t.style.fontSize = size + "px"; }
   }
+  fit();
   (document.fonts ? document.fonts.ready : Promise.resolve()).then(fit);
   addEventListener("resize", fit);
 })();
