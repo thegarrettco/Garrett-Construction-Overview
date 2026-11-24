@@ -1292,8 +1292,21 @@ strong, b{ font-weight:500; }
 .org.is-armed .org__panel{ opacity:0; transform:translateY(14px); }
 /* Prompt mode: brand blue with the cover band's hatching, so the invitation pops.
    Hovering a role eases it to the dark slate details view. */
-.org__panel{ transition:background-color .35s ease, border-color .3s ease, opacity .7s ease var(--d,0ms), transform .8s cubic-bezier(.16,.84,.3,1) var(--d,0ms); }
-.org__panel:not(.is-role){ --g:#064B86; background-color:#0971CE; background-image:var(--tx-hatch); background-size:auto; box-shadow:0 26px 46px -28px rgba(9,113,206,.75); }
+/* The blue sits on its own layer so it can crossfade with the slate, texture and all */
+.org__panel::before{ content:""; position:absolute; inset:0; z-index:0; background-color:#0971CE; background-image:var(--tx-hatch); opacity:1; pointer-events:none; }
+.org__pl{ position:relative; z-index:1; }
+.org__panel:not(.is-role){ --g:#064B86; box-shadow:0 26px 46px -28px rgba(9,113,206,.75); }
+.org__panel.is-role::before{ opacity:0; }
+
+/* Hovering a role: quick */
+.org__panel.is-role{ transition:border-color .3s ease, box-shadow .35s ease, opacity .7s ease var(--d,0ms), transform .8s cubic-bezier(.16,.84,.3,1) var(--d,0ms); }
+.org__panel.is-role::before{ transition:opacity .35s ease; }
+.org__panel.is-role .org__pl{ transition:opacity .25s ease, transform .35s cubic-bezier(.16,.84,.3,1); }
+/* Moving off the chart: an unhurried return to the prompt */
+.org__panel:not(.is-role){ transition:border-color 1.1s ease, box-shadow 1.2s ease, opacity .7s ease var(--d,0ms), transform .8s cubic-bezier(.16,.84,.3,1) var(--d,0ms); }
+.org__panel:not(.is-role)::before{ transition:opacity 1.1s cubic-bezier(.4,0,.2,1) .1s; }
+.org__panel:not(.is-role) .org__pl--role{ transition:opacity .6s ease, transform .8s cubic-bezier(.4,0,.2,1); }
+.org__panel:not(.is-role) .org__pl--idle{ transition:opacity .8s ease .35s, transform 1s cubic-bezier(.16,.84,.3,1) .35s; }
 .org__panel:not(.is-role) .org__pl-g{ color:var(--sky-200); }
 .org__panel:not(.is-role) .org__pl--idle .org__pl-b{ color:rgba(255,255,255,.92); }
 .org__panel:not(.is-role) .org__pl-c{ border-left-color:rgba(255,255,255,.3); }
@@ -1364,7 +1377,7 @@ strong, b{ font-weight:500; }
 
 @media (prefers-reduced-motion: reduce){
   .pj__t tbody.is-new tr, .af__phz .on i{ animation:none; }
-  .org__node, .org__base path, .org__hot path, .org__panel{ transition:none !important; }
+  .org__node, .org__base path, .org__hot path, .org__panel, .org__panel::before, .org__pl{ transition:none !important; }
   .org__cue::after, .org__cue svg, .org__pl--role.is-swap .org__pl-a, .org__pl--role.is-swap .org__pl-c{ animation:none; }
 }
 @media print{
