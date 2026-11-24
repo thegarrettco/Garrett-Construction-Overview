@@ -1431,11 +1431,7 @@ strong, b{ font-weight:500; }
   .pj__photos img{ aspect-ratio:4 / 3; }
   .pj__photos figcaption{ font-size:13.5px; padding:28px 12px 10px; }
 
-  /* Affiliates: phase labels over the bars, and copy at full width */
-  .af__phases{ display:block; padding:2px 10px 8px; }
-  .af__phases > span{ display:none; }
-  .af__phases div span{ font-size:11px; letter-spacing:.08em; }
-  .af__phases div span + span{ padding-left:6px; }
+  /* Affiliates: copy at full width */
   .af__about > p, .af__why p{ max-width:none; }
   .af__lists li, .af__fs{ white-space:normal; }
   .af__head{ flex-direction:column; align-items:flex-start; gap:12px; padding-bottom:18px; }
@@ -1507,30 +1503,51 @@ strong, b{ font-weight:500; }
 /* ---------- Affiliates: opening animation (all sizes) ---------- */
 @keyframes sdIn{ from{ opacity:0; transform:translateY(8px) } to{ opacity:1; transform:none } }
 
-/* ---------- Phones: affiliates as an accordion ---------- */
+/* ---------- Phones: affiliates as stacked company cards ----------
+   Each company is its own card with its logo; tapping opens its details inside
+   the same card. The phase timeline bars are left to larger screens. */
+.af__mark{ display:none; }
 @media (max-width: 720px){
   .af{ gap:0; }
-  .af__chart{ padding:10px 10px 6px; }
-  .af__row{ position:relative; padding:14px 40px 14px 10px; scroll-margin-top:80px; }
-  .af__row[aria-selected="true"]{ border-bottom-color:transparent; border-radius:4px 4px 0 0; }
-  /* plus / minus marker shows each row opens */
-  .af__row::before, .af__row::after{ content:""; position:absolute; right:14px; top:22px; width:13px; height:2px; border-radius:1px; background:var(--blue); transition:transform .3s cubic-bezier(.16,.84,.3,1), opacity .2s ease; }
+  .af__chart{ background:transparent; padding:0; border-radius:0; }
+  .af__phases, .af__track{ display:none !important; }
+  .af__rows{ display:flex; flex-direction:column; gap:10px; }
+  .af__row{
+    position:relative; display:grid; grid-template-columns:minmax(0,1fr); gap:12px; align-items:start;
+    padding:18px 50px 16px 16px; background:var(--card); border-bottom:0; border-radius:6px;
+    box-shadow:0 0 0 1px var(--line), 0 14px 24px -22px rgba(27,37,43,.45);
+    scroll-margin-top:80px; transition:box-shadow .25s ease, border-radius .2s ease;
+  }
+  .af__row:last-child{ border-bottom:0; }
+  .af__row:hover, .af__row[aria-selected="true"]{ background:var(--card); }
+  .af__row[aria-selected="true"]{ border-radius:6px 6px 0 0; box-shadow:inset 0 3px 0 var(--blue), 0 0 0 1px var(--line); }
+  .af__name{ font-size:18px; line-height:1.1; }
+  .af__name small{ font-size:14px; margin-top:5px; line-height:1.35; }
+  /* Logo across the top of each card, sized by its own proportions */
+  .af__mark{ display:flex; align-items:center; height:calc(var(--lh, 48px) * .7); max-width:180px; }
+  .af__mark img{ display:block; height:100%; width:auto; max-width:100%; object-fit:contain; object-position:left center; filter:brightness(0); opacity:.82; }
+  .af__mark.is-empty{ display:none; }
+  :root[data-theme="dark"] .af__mark img{ filter:brightness(0) invert(1); }
+  /* Plus / minus marker */
+  .af__row::before, .af__row::after{ content:""; position:absolute; right:18px; top:30px; width:14px; height:2px; margin-top:-1px; border-radius:1px; background:var(--blue); transition:transform .3s cubic-bezier(.16,.84,.3,1), opacity .2s ease; }
   .af__row::after{ transform:rotate(90deg); }
   .af__row[aria-selected="true"]::after{ transform:rotate(0deg); opacity:0; }
-  /* the details sit right under their row, as part of the same card */
-  .af__rows .af__panel{ margin:0 0 10px; padding:18px 14px 20px; border-top:0; border-radius:0 0 6px 6px; background:var(--sky-50); box-shadow:inset 3px 0 0 var(--blue); animation:sdIn .45s cubic-bezier(.16,.84,.3,1); }
-  .af__rows .af__panel + .af__row{ border-top:1px solid var(--line); }
-  .af__rows .af__head{ padding-bottom:16px; }
-  .af__rows .af__logo{ display:none; }
-  .af__rows .af__id h3{ display:none; }
-  .af__rows .af__id p{ margin:0; color:var(--ink); font-size:15.5px; }
-  .af__rows .af__head .btn{ background:var(--card); }
-  .af__rows .af__why{ background:var(--card); }
+  /* Details open inside the same card */
+  .af__rows .af__panel{
+    margin:-10px 0 0; padding:0 16px 20px; border-top:0; border-radius:0 0 6px 6px;
+    background:var(--card); box-shadow:0 0 0 1px var(--line), 0 14px 24px -22px rgba(27,37,43,.45);
+    clip-path:inset(0 -30px -30px -30px); animation:sdIn .45s cubic-bezier(.16,.84,.3,1);
+  }
+  .af__rows .af__head{ padding:16px 0 16px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); flex-direction:row; align-items:center; justify-content:space-between; gap:12px; }
+  .af__rows .af__logo, .af__rows .af__id h3{ display:none; }
+  .af__rows .af__id{ flex:1; min-width:0; width:auto; }
+  .af__rows .af__id p{ margin:0; color:var(--ink); font-size:15px; line-height:1.45; }
+  .af__rows .af__head .btn{ flex:none; padding:9px 12px 7px; font-size:12.5px; }
   .af__rows .af__body{ margin-top:18px; }
 }
 /* Touch screens: no sticky hover highlight left on a row after it is tapped */
 @media (hover: none){
-  .af__row:not([aria-selected="true"]):hover{ background:transparent; }
+  .af__row:not([aria-selected="true"]):hover{ background:var(--card); }
   .af__row:not([aria-selected="true"]):hover .af__track i{ background:var(--gray-300); }
 }
 </style>
@@ -2592,6 +2609,7 @@ function affiliates(){
   const A = C.affiliates || []; if (!A.length) return "";
   const rows = A.map((a, i) => `
     <button type="button" class="af__row" role="tab" id="aft-${a.key}" data-aff="${a.key}" aria-selected="${i === 0}" aria-controls="af-${a.key}" tabindex="${i === 0 ? 0 : -1}">
+      <span class="af__mark" aria-hidden="true"${a.logoHeight ? ` style="--lh:${a.logoHeight}px"` : ""}><img src="${esc(a.logo)}" alt="" loading="lazy" onerror="this.parentNode.classList.add('is-empty'); this.remove()"></span>
       <span class="af__name">${esc(a.name)}<small>${esc(a.role)}</small></span>
       <span class="af__track"><i style="left:${((a.s - 1) / 8 * 100).toFixed(2)}%;width:${((a.e - a.s) / 8 * 100).toFixed(2)}%"></i></span>
     </button>`).join("");
