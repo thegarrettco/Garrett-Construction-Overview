@@ -1488,6 +1488,21 @@ strong, b{ font-weight:500; }
   .offices{ grid-template-columns:1fr !important; }
   .org__node{ margin-left:calc(var(--lv) * 18px); }
 }
+
+/* ---------- Phones: company leadership as clean, separated entries ---------- */
+@media (max-width: 600px){
+  .team{ gap:0; }
+  .person{ grid-template-columns:68px minmax(0,1fr); column-gap:16px; row-gap:0; align-items:center; padding:24px 0; border-top:1px solid var(--line); }
+  .person:first-child{ border-top:0; padding-top:4px; }
+  .person__photo{ grid-row:1 / span 2; width:68px; height:68px; aspect-ratio:auto; border-radius:50%; }
+  .person__photo::after{ display:none; }
+  .person__mono{ font-size:24px; padding-top:2px; }
+  .person h3{ grid-column:2; margin:0; align-self:end; font-size:23px; }
+  .person__role{ grid-column:2; align-self:start; margin-top:6px; line-height:1.3; }
+  .person p{ grid-column:1 / -1; margin-top:14px; font-size:15.5px; line-height:1.6; }
+  .person__photo--mark img{ width:46%; }
+  .person__go{ margin-top:10px; }
+}
 </style>
 </head>
 
