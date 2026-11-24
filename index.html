@@ -1503,6 +1503,36 @@ strong, b{ font-weight:500; }
   .person__photo--mark img{ width:46%; }
   .person__go{ margin-top:10px; }
 }
+
+/* ---------- Affiliates: opening animation (all sizes) ---------- */
+@keyframes sdIn{ from{ opacity:0; transform:translateY(8px) } to{ opacity:1; transform:none } }
+
+/* ---------- Phones: affiliates as an accordion ---------- */
+@media (max-width: 720px){
+  .af{ gap:0; }
+  .af__chart{ padding:10px 10px 6px; }
+  .af__row{ position:relative; padding:14px 40px 14px 10px; scroll-margin-top:80px; }
+  .af__row[aria-selected="true"]{ border-bottom-color:transparent; border-radius:4px 4px 0 0; }
+  /* plus / minus marker shows each row opens */
+  .af__row::before, .af__row::after{ content:""; position:absolute; right:14px; top:22px; width:13px; height:2px; border-radius:1px; background:var(--blue); transition:transform .3s cubic-bezier(.16,.84,.3,1), opacity .2s ease; }
+  .af__row::after{ transform:rotate(90deg); }
+  .af__row[aria-selected="true"]::after{ transform:rotate(0deg); opacity:0; }
+  /* the details sit right under their row, as part of the same card */
+  .af__rows .af__panel{ margin:0 0 10px; padding:18px 14px 20px; border-top:0; border-radius:0 0 6px 6px; background:var(--sky-50); box-shadow:inset 3px 0 0 var(--blue); animation:sdIn .45s cubic-bezier(.16,.84,.3,1); }
+  .af__rows .af__panel + .af__row{ border-top:1px solid var(--line); }
+  .af__rows .af__head{ padding-bottom:16px; }
+  .af__rows .af__logo{ display:none; }
+  .af__rows .af__id h3{ display:none; }
+  .af__rows .af__id p{ margin:0; color:var(--ink); font-size:15.5px; }
+  .af__rows .af__head .btn{ background:var(--card); }
+  .af__rows .af__why{ background:var(--card); }
+  .af__rows .af__body{ margin-top:18px; }
+}
+/* Touch screens: no sticky hover highlight left on a row after it is tapped */
+@media (hover: none){
+  .af__row:not([aria-selected="true"]):hover{ background:transparent; }
+  .af__row:not([aria-selected="true"]):hover .af__track i{ background:var(--gray-300); }
+}
 </style>
 </head>
 
@@ -2607,29 +2637,69 @@ function affiliates(){
     </div>
   </section>`;
 }
+/* Larger screens: a timeline of companies with one details panel beside it (tabs).
+   Phones: an accordion, where each company's details open right under its row,
+   so moving between affiliates never means scrolling back up. */
+const AFF_MOBILE = matchMedia("(max-width: 720px)");
 function selectAffiliate(key){
   const tab = document.getElementById(`aft-${key}`); if (!tab) return;
-  $$(".af__row").forEach(b => { const on = b === tab; b.setAttribute("aria-selected", String(on)); b.tabIndex = on ? 0 : -1; });
+  $$(".af__row").forEach(b => {
+    const on = b === tab;
+    b.setAttribute("aria-selected", String(on));
+    if (AFF_MOBILE.matches) b.setAttribute("aria-expanded", String(on)); else b.tabIndex = on ? 0 : -1;
+  });
   $$(".af__panel").forEach(p => { p.hidden = p.id !== `af-${key}`; });
+}
+function closeAffiliate(row){
+  row.setAttribute("aria-selected", "false"); row.setAttribute("aria-expanded", "false");
+  const p = document.getElementById(`af-${row.dataset.aff}`); if (p) p.hidden = true;
+}
+/* Moves each details panel under its own row on phones, and back beside the
+   timeline on larger screens, switching the accessibility roles to match */
+function affLayout(){
+  const list = $(".af__rows"), holder = $(".af__panels"); if (!list || !holder) return;
+  const rows = $$(".af__row"), mobile = AFF_MOBILE.matches;
+  rows.forEach(r => {
+    const panel = document.getElementById(`af-${r.dataset.aff}`); if (!panel) return;
+    if (mobile) { if (panel.previousElementSibling !== r) r.after(panel); }
+    else if (panel.parentElement !== holder) holder.appendChild(panel);
+    panel.setAttribute("role", mobile ? "region" : "tabpanel");
+    if (mobile) { r.removeAttribute("role"); r.tabIndex = 0; r.setAttribute("aria-expanded", r.getAttribute("aria-selected")); }
+    else { r.setAttribute("role", "tab"); r.removeAttribute("aria-expanded"); }
+  });
+  if (mobile) list.removeAttribute("role"); else list.setAttribute("role", "tablist");
+  holder.hidden = mobile;
+  // Larger screens always show one company
+  if (!mobile) {
+    const open = rows.find(r => r.getAttribute("aria-selected") === "true") || rows[0];
+    if (open) selectAffiliate(open.dataset.aff);
+  }
 }
 function wireAffiliates(){
   const rows = $$(".af__row");
   rows.forEach((b, i) => {
     b.addEventListener("click", () => {
+      if (!AFF_MOBILE.matches) { selectAffiliate(b.dataset.aff); return; }
+      // Phones: tapping the open company closes it; tapping another opens it in place
+      if (b.getAttribute("aria-selected") === "true") { closeAffiliate(b); return; }
       selectAffiliate(b.dataset.aff);
-      if (matchMedia("(max-width: 720px)").matches) {
-        const panel = document.getElementById(`af-${b.dataset.aff}`);
-        requestAnimationFrame(() => panel.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }));
-      }
+      // Ease the company up to just under the nav so its details fill the screen below it
+      requestAnimationFrame(() => {
+        const navH = ($(".nav") || {}).offsetHeight || 64;
+        const top = b.getBoundingClientRect().top;
+        if (Math.abs(top - (navH + 12)) > 24) scrollTo({ top: scrollY + top - navH - 12, behavior: REDUCED ? "auto" : "smooth" });
+      });
     });
     b.addEventListener("keydown", e => {
+      if (AFF_MOBILE.matches) return;               // phones: plain buttons, Enter / Space toggle
       const d = e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : e.key === "ArrowUp" || e.key === "ArrowLeft" ? -1 : 0;
       if (!d) return; e.preventDefault();
       const n = rows[(i + d + rows.length) % rows.length]; selectAffiliate(n.dataset.aff); n.focus();
     });
   });
+  affLayout();
+  if (AFF_MOBILE.addEventListener) AFF_MOBILE.addEventListener("change", affLayout); else AFF_MOBILE.addListener(affLayout);
 }
-
 /* ============================================================
    PROCORE
    ============================================================ */
