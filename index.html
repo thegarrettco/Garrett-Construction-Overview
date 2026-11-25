@@ -1726,7 +1726,8 @@ const COMPANY = {
   // ------------------------------------------------------------
   // PROJECT TEAM STRUCTURE (org chart under "Your team")
   // col / row place each role on a 17-column grid (each role spans 2).
-  // The tree is left-aligned: each role sits directly above its first report.
+  // The tree is left-aligned: each role sits directly above its first report
+  // (the President is centered over the two VPs, who are peers).
   // parents: who the role reports to. link: "support" draws a dashed
   // support line off the side of the parent instead of a reporting line.
   // ------------------------------------------------------------
@@ -1747,25 +1748,29 @@ const COMPANY = {
       support: "Project support"
     },
     roles: [
-      { key: "pres",  title: "President of Construction", group: "lead",    col: 1,  row: 1, parents: [],
+      { key: "pres",  title: "President of Construction", group: "lead",    col: 2,  row: 1, parents: [],
         body: "Sets the direction for every Garrett jobsite: construction strategy, staffing and the standards each team is held to. Stays involved in every owner relationship." },
-      { key: "vp",    title: "VP of Construction",       group: "lead",    col: 1,  row: 2, parents: ["pres"],
+      { key: "vpp",   title: "VP of Preconstruction",    group: "lead",    col: 1,  row: 2, parents: ["pres"],
+        body: "Leads preconstruction, bidding and buyout. Turns early drawings into a reliable budget, works through pricing and value engineering with you and your design team, and hands the field a buyout it can build to." },
+      { key: "pcm",   title: "Preconstruction Manager",  group: "pm",      col: 1,  row: 3, parents: ["vpp"],
+        body: "Builds the estimates and bid packages, levels subcontractor bids and tracks cost as the drawings develop, so every number in your budget is tied to a real scope." },
+      { key: "vp",    title: "VP of Construction",       group: "lead",    col: 3,  row: 2, parents: ["pres"],
         body: "Runs day-to-day construction across the portfolio. Moves people and resources between projects and is the escalation point when a job needs more." },
-      { key: "super", title: "Superintendent",           group: "field",   col: 1,  row: 3, parents: ["vp"],
+      { key: "super", title: "Superintendent",           group: "field",   col: 3,  row: 3, parents: ["vp"],
         body: "Runs the jobsite every day: trades, safety, quality and the look-ahead schedule. Knows exactly where your building stands at any moment." },
-      { key: "asup",  title: "Assistant Superintendent", group: "field",   col: 1,  row: 4, parents: ["super"],
+      { key: "asup",  title: "Assistant Superintendent", group: "field",   col: 3,  row: 4, parents: ["super"],
         body: "Works alongside the superintendent on trade coordination, inspections and quality checks, often owning a building or phase of the site." },
-      { key: "fsup",  title: "Field Superintendent",     group: "field",   col: 3,  row: 4, parents: ["super"],
+      { key: "fsup",  title: "Field Superintendent",     group: "field",   col: 5,  row: 4, parents: ["super"],
         body: "Stays in front of the crews: layout, daily coordination, punch and turnover readiness, unit by unit." },
-      { key: "px",    title: "Project Executive",        group: "plead",   col: 6,  row: 3, parents: ["vp"],
+      { key: "px",    title: "Project Executive",        group: "plead",   col: 7,  row: 3, parents: ["vp"],
         body: "Accountable for your contract, budget and delivery. Leads owner meetings and reporting, and makes the final call on cost and quality." },
-      { key: "dir",   title: "Director of Construction", group: "plead",   col: 9,  row: 3, parents: ["vp"],
+      { key: "dir",   title: "Director of Construction", group: "plead",   col: 10, row: 3, parents: ["vp"],
         body: "Owns the schedule and the path to turnover. Coordinates the project team and directs the scheduling, accounting and admin support behind it." },
-      { key: "pm",    title: "Project Manager",          group: "pm",      col: 6,  row: 4, parents: ["px", "dir"],
+      { key: "pm",    title: "Project Manager",          group: "pm",      col: 7,  row: 4, parents: ["px", "dir"],
         body: "Your day-to-day contact. Runs buyout and subcontracts, tracks cost and PCOs against the budget, and keeps decisions moving with you and your design team." },
-      { key: "apm",   title: "Assistant Project Manager", group: "pm",     col: 6,  row: 5, parents: ["pm"],
+      { key: "apm",   title: "Assistant Project Manager", group: "pm",     col: 7,  row: 5, parents: ["pm"],
         body: "Supports the project manager on buyout, subcontracts, pay applications and owner reporting, so nothing waits on one person’s desk." },
-      { key: "pe",    title: "Project Engineer",         group: "pm",      col: 8,  row: 5, parents: ["pm"],
+      { key: "pe",    title: "Project Engineer",         group: "pm",      col: 9,  row: 5, parents: ["pm"],
         body: "Manages RFIs and submittals in Procore and keeps the field on the current drawings. Assembles O&M manuals, warranties and as-builts for closeout." },
       { key: "sched", title: "Scheduler",                group: "support", col: 12, row: 4, parents: ["dir"], link: "support",
         body: "Builds and maintains the project schedule, tracks progress against it and flags risk to the critical path before it reaches the field." },
